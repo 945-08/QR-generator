@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Pro - Generator QR Code Modern & Canggih</title>
+    <meta name="description" content="Buat QR Code profesional dengan kustomisasi logo, warna, dan berbagai tipe data secara gratis dan cepat.">
+    <meta name="keywords" content="QR Code Generator, Buat QR Code, QR Code Modern, Custom QR Code">
+    
+    <meta property="og:title" content="QR Pro - Generator QR Code Modern">
+    <meta property="og:description" content="Solusi lengkap pembuatan QR Code kustom dengan desain modern.">
+    <meta name="twitter:title" content="QR Pro - Generator QR Code Modern">
+    <meta name="twitter:description" content="Solusi lengkap pembuatan QR Code kustom dengan desain modern.">
+
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+    <style type="text/tailwindcss">
+    @layer theme {
+        :root {
+            --primary-color: #0d9488;
+            --primary-hover: #0f766e;
+            --bg-main: #f0fdfa;
+            --card-bg: #ffffff;
+            --text-main: #134e4a;
+            --text-muted: #64748b;
+        }
+    }
+
+    @layer base {
+        body {
+            @apply bg-[var(--bg-main)] text-[var(--text-main)] font-sans antialiased;
+        }
+    }
+
+    @layer components {
+        .btn-primary {
+            @apply px-6 py-3 bg-[var(--primary-color)] text-white rounded-xl font-semibold hover:bg-[var(--primary-hover)] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-teal-200;
+        }
+        .card {
+            @apply bg-[var(--card-bg)] rounded-2xl border border-teal-100 shadow-sm p-6;
+        }
+        .input-field {
+            @apply w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all duration-200 bg-slate-50;
+        }
+        .tab-btn {
+            @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2;
+        }
+        .tab-btn-active {
+            @apply bg-teal-50 text-teal-700 ring-1 ring-teal-200;
+        }
+        .template-card {
+            @apply relative overflow-hidden rounded-xl border border-slate-200 cursor-pointer transition-all duration-300 hover:shadow-md hover:border-teal-300;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="components/QRDisplay.js"></script>
+    <script type="text/babel" src="components/QRControls.js"></script>
+    <script type="text/babel" src="components/TemplateList.js"></script>
+    <script type="text/babel" src="utils/qrUtils.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>

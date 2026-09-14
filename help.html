@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bantuan - QR Pro</title>
+    <meta name="description" content="Pusat bantuan dan panduan penggunaan QR Pro Generator.">
+    
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
+    
+    <style type="text/tailwindcss">
+        @layer theme {
+            :root {
+                --primary-color: #0d9488;
+                --primary-hover: #0f766e;
+                --bg-main: #f0fdfa;
+                --card-bg: #ffffff;
+                --text-main: #134e4a;
+                --text-muted: #64748b;
+            }
+        }
+        @layer base {
+            body { @apply bg-[var(--bg-main)] text-[#1e293b] font-sans; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="help-app.js"></script>
+</body>
+</html>
