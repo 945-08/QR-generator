@@ -8,6 +8,14 @@ function QRControls({ options, setOptions }) {
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        window.alert('Pilih file gambar yang valid.');
+        return;
+      }
+      if (file.size > 1024 * 1024) {
+        window.alert('Ukuran logo maksimal 1MB.');
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (event) => {
         updateOption('logo', event.target.result);
@@ -79,7 +87,7 @@ function QRControls({ options, setOptions }) {
                   value={options.value}
                   onChange={(e) => updateOption('value', e.target.value)}
                   className="input-field min-h-[120px]"
-                  placeholder={options.type === 'url' ? 'https://example.com' : 'Ketik di sini...'}
+                  placeholder={options.type === 'url' ? 'https://example.com' : options.type === 'email' ? 'nama@contoh.com' : options.type === 'wifi' ? 'WIFI:T:WPA;S:NamaWiFi;P:KataSandi;;' : options.type === 'vcard' ? 'BEGIN:VCARD\nVERSION:3.0\nFN:Nama\nEND:VCARD' : 'Ketik di sini...'}
                 />
               </div>
             </div>

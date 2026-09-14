@@ -1,4 +1,4 @@
-function QRDisplay({ qrUrl, options, onDownload }) {
+function QRDisplay({ qrUrl, options, onDownload, onShare, onPrint, error }) {
   try {
     return (
       <div className="card text-center" data-name="qr-display" data-file="components/QRDisplay.js">
@@ -6,11 +6,11 @@ function QRDisplay({ qrUrl, options, onDownload }) {
         
         <div className="relative inline-block p-8 bg-slate-50 rounded-2xl border border-slate-100 mb-8">
           <div className="bg-white p-2 rounded-lg shadow-inner">
-            <img 
-              src={qrUrl} 
+            {qrUrl ? <img
+              src={qrUrl}
               alt="Generated QR Code" 
               className="w-[280px] h-[280px] mx-auto transition-all duration-500 hover:scale-105"
-            />
+            /> : <div className="w-[280px] h-[280px] flex items-center justify-center text-sm text-red-600">Menunggu konten valid</div>}
           </div>
           
           <div className="absolute -top-3 -right-3 w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg animate-pulse">
@@ -29,16 +29,18 @@ function QRDisplay({ qrUrl, options, onDownload }) {
           </button>
           
           <div className="flex gap-3">
-            <button className="flex-1 py-3 px-4 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+            <button onClick={onShare} disabled={!qrUrl} className="flex-1 py-3 px-4 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2">
               <div className="icon-share-2 text-lg"></div>
               Bagikan
             </button>
-            <button className="flex-1 py-3 px-4 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+            <button onClick={onPrint} disabled={!qrUrl} className="flex-1 py-3 px-4 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2">
               <div className="icon-printer text-lg"></div>
               Cetak
             </button>
           </div>
         </div>
+
+        {error && <p role="alert" className="mt-4 text-sm text-red-600">{error}</p>}
 
         <div className="mt-8 pt-8 border-t border-slate-100 grid grid-cols-2 gap-4">
           <div className="text-left">

@@ -37,7 +37,7 @@ function Header() {
             </button>
           </nav>
 
-          <button className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 transition-all">
+          <button onClick={() => window.open('https://github.com/945-08/QR-generator', '_blank', 'noopener,noreferrer')} className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 transition-all">
             Hubungkan API
           </button>
         </div>

@@ -50,6 +50,7 @@ function App() {
   });
 
   const [qrUrl, setQrUrl] = React.useState('');
+  const [qrError, setQrError] = React.useState('');
 
   React.useEffect(() => {
     generateQR();
@@ -57,10 +58,13 @@ function App() {
 
   const generateQR = async () => {
     try {
+      setQrError('');
       const url = await generateQRCodeUrl(qrOptions);
       setQrUrl(url);
     } catch (err) {
       console.error('QR Generation error:', err);
+      setQrError('Konten QR tidak valid. Periksa kembali isinya.');
+      setQrUrl('');
     }
   };
 
@@ -75,10 +79,33 @@ function App() {
   };
 
   const handleDownload = () => {
+    if (!qrUrl) return;
     const link = document.createElement('a');
     link.download = `qr-code-${Date.now()}.png`;
     link.href = qrUrl;
     link.click();
+  };
+
+  const handleShare = async () => {
+    if (!qrUrl) return;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'QR Code QR Pro', text: qrOptions.value, url: qrOptions.type === 'url' ? qrOptions.value : undefined });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(qrOptions.value);
+        window.alert('Konten QR berhasil disalin.');
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error('Share error:', err);
+    }
+  };
+
+  const handlePrint = () => {
+    if (!qrUrl) return;
+    const printWindow = window.open('', '_blank', 'width=700,height=700');
+    if (!printWindow) return;
+    printWindow.document.write(`<html><head><title>QR Code QR Pro</title></head><body style="display:flex;justify-content:center;align-items:center;min-height:100vh"><img src="${qrUrl}" style="width:512px;height:512px" onload="window.print();window.close()"></body></html>`);
+    printWindow.document.close();
   };
 
   try {
@@ -108,6 +135,9 @@ function App() {
                   qrUrl={qrUrl} 
                   options={qrOptions} 
                   onDownload={handleDownload}
+                  onShare={handleShare}
+                  onPrint={handlePrint}
+                  error={qrError}
                 />
               </div>
             </div>

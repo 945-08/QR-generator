@@ -15,9 +15,18 @@ async function generateQRCodeUrl(options) {
     logoHeight
   } = options;
 
+  const normalizedValue = value.trim();
+  if (!normalizedValue) {
+    throw new Error('QR content is empty');
+  }
+
+  const qrValue = options.type === 'email' && !normalizedValue.toLowerCase().startsWith('mailto:')
+    ? `mailto:${normalizedValue}`
+    : normalizedValue;
+
   // 1. Generate Base QR Code
   const qrCanvas = document.createElement('canvas');
-  await QRCode.toCanvas(qrCanvas, value, {
+  await QRCode.toCanvas(qrCanvas, qrValue, {
     width: 1024,
     margin: margin,
     color: {
