@@ -37,7 +37,7 @@ function QRControls({ options, setOptions }) {
       <div className="space-y-6" data-name="qr-controls" data-file="components/QRControls.js">
         <div className="card">
           <div className="flex flex-wrap gap-2 mb-8 border-b border-slate-100 pb-4">
-            <button 
+            <button
               onClick={() => setActiveTab('content')}
               className={`tab-btn ${activeTab === 'content' ? 'tab-btn-active' : 'text-slate-500 hover:bg-slate-50'}`}
             >
@@ -52,6 +52,13 @@ function QRControls({ options, setOptions }) {
               Desain
             </button>
             <button 
+              onClick={() => setActiveTab('frame')}
+              className={`tab-btn ${activeTab === 'frame' ? 'tab-btn-active' : 'text-slate-500 hover:bg-slate-50'}`}
+            >
+              <div className="icon-square text-lg"></div>
+              Frame
+            </button>
+            <button
               onClick={() => setActiveTab('logo')}
               className={`tab-btn ${activeTab === 'logo' ? 'tab-btn-active' : 'text-slate-500 hover:bg-slate-50'}`}
             >
@@ -160,6 +167,145 @@ function QRControls({ options, setOptions }) {
                   <span>Lebar</span>
                 </div>
               </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 mb-2">Bentuk QR</label>
+                <select
+                  value={options.qrShape}
+                  onChange={(e) => updateOption('qrShape', e.target.value)}
+                  className="input-field"
+                >
+                  <option value="square">Kotak</option>
+                  <option value="circle">Lingkaran</option>
+                  <option value="heart">Love</option>
+                  <option value="whatsapp">WhatsApp</option>
+                  <option value="instagram">Instagram</option>
+                </select>
+              </div>
+
+            </div>
+          )}
+
+          {activeTab === 'frame' && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="flex items-center justify-between gap-4 mb-3">
+                <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide">ADD FRAME</label>
+                <button
+                  type="button"
+                  onClick={() => updateOption('frameEnabled', !options.frameEnabled)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${options.frameEnabled ? 'bg-teal-600' : 'bg-slate-200'}`}
+                  aria-label="Toggle frame"
+                >
+                  <span className={`inline-block h-5 w-5 rounded-full bg-white shadow-md transform transition-transform ${options.frameEnabled ? 'translate-x-5' : 'translate-x-1'}`} />
+                </button>
+              </div>
+
+              {options.frameEnabled && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Posisi Frame</label>
+                    <select
+                      value={options.framePosition}
+                      onChange={(e) => updateOption('framePosition', e.target.value)}
+                      className="input-field"
+                    >
+                      <option value="top">Di Atas QR</option>
+                      <option value="bottom">Di Bawah QR</option>
+                      <option value="around">Mengelilingi QR</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Gaya Frame</label>
+                    <select
+                      value={options.frameStyle}
+                      onChange={(e) => updateOption('frameStyle', e.target.value)}
+                      className="input-field"
+                    >
+                      <option value="classic">Classic</option>
+                      <option value="rounded">Rounded</option>
+                      <option value="double">Double Border</option>
+                    </select>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Tulisan Frame</label>
+                    <input
+                      type="text"
+                      value={options.frameText}
+                      onChange={(e) => updateOption('frameText', e.target.value)}
+                      className="input-field"
+                      placeholder="Scan Me"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Font Tulisan</label>
+                    <select
+                      value={options.frameFont}
+                      onChange={(e) => updateOption('frameFont', e.target.value)}
+                      className="input-field"
+                    >
+                      <option value="Arial">Arial</option>
+                      <option value="Verdana">Verdana</option>
+                      <option value="Georgia">Georgia</option>
+                      <option value="Tahoma">Tahoma</option>
+                      <option value="Times New Roman">Times New Roman</option>
+                      <option value="Courier New">Courier New</option>
+                      <option value="Impact">Impact</option>
+                      <option value="Trebuchet MS">Trebuchet MS</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Warna Frame</label>
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="color"
+                        value={options.frameColor}
+                        onChange={(e) => updateOption('frameColor', e.target.value)}
+                        className="w-12 h-12 rounded-lg cursor-pointer border-none p-0"
+                      />
+                      <input
+                        type="text"
+                        value={options.frameColor}
+                        onChange={(e) => updateOption('frameColor', e.target.value)}
+                        className="input-field text-center font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Warna Teks</label>
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="color"
+                        value={options.frameTextColor}
+                        onChange={(e) => updateOption('frameTextColor', e.target.value)}
+                        className="w-12 h-12 rounded-lg cursor-pointer border-none p-0"
+                      />
+                      <input
+                        type="text"
+                        value={options.frameTextColor}
+                        onChange={(e) => updateOption('frameTextColor', e.target.value)}
+                        className="input-field text-center font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Padding Frame ({options.framePadding}px)</label>
+                    <input
+                      type="range"
+                      min="20"
+                      max="120"
+                      value={options.framePadding}
+                      onChange={(e) => updateOption('framePadding', parseInt(e.target.value))}
+                      className="w-full accent-teal-600"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

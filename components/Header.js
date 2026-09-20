@@ -7,6 +7,17 @@ function Header() {
     return window.location.pathname.includes(path);
   };
 
+  const scrollToTemplates = () => {
+    if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+      window.location.hash = 'templates';
+      window.setTimeout(() => {
+        document.getElementById('templates')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    } else {
+      window.location.href = 'index.html#templates';
+    }
+  };
+
   try {
     return (
       <header className="bg-white border-b border-slate-100 py-4" data-name="header" data-file="components/Header.js">
@@ -25,9 +36,15 @@ function Header() {
           <nav className="hidden md:flex items-center gap-8">
             <button 
                 onClick={() => navigateTo('index.html')} 
-                className={`text-sm font-semibold transition-colors ${!isActive('help.html') ? 'text-teal-600' : 'text-slate-600 hover:text-teal-600'}`}
+              className={`text-sm font-semibold transition-colors ${!isActive('help.html') && window.location.hash !== '#templates' ? 'text-teal-600' : 'text-slate-600 hover:text-teal-600'}`}
             >
                 Generator
+            </button>
+            <button
+              onClick={scrollToTemplates}
+              className={`text-sm font-semibold transition-colors ${window.location.hash === '#templates' ? 'text-teal-600' : 'text-slate-600 hover:text-teal-600'}`}
+            >
+              Template
             </button>
             <button 
                 onClick={() => navigateTo('help.html')} 

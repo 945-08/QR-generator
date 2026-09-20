@@ -36,6 +36,7 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [showTemplates, setShowTemplates] = React.useState(window.location.hash === '#templates');
   const [qrOptions, setQrOptions] = React.useState({
     value: 'https://trickle.so',
     type: 'url',
@@ -44,6 +45,15 @@ function App() {
     size: 400,
     margin: 2,
     errorCorrectionLevel: 'H',
+    qrShape: 'square',
+    frameEnabled: false,
+    framePosition: 'bottom',
+    frameStyle: 'rounded',
+    frameColor: '#0f172a',
+    frameText: 'Scan Me',
+    frameTextColor: '#ffffff',
+    frameFont: 'Arial',
+    framePadding: 36,
     logo: null,
     logoWidth: 80,
     logoHeight: 80,
@@ -51,6 +61,12 @@ function App() {
 
   const [qrUrl, setQrUrl] = React.useState('');
   const [qrError, setQrError] = React.useState('');
+
+  React.useEffect(() => {
+    const handleHashChange = () => setShowTemplates(window.location.hash === '#templates');
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   React.useEffect(() => {
     generateQR();
@@ -74,7 +90,20 @@ function App() {
       color: template.color,
       bgColor: template.bgColor,
       errorCorrectionLevel: template.errorCorrectionLevel,
-      margin: template.margin
+      margin: template.margin,
+      qrShape: template.qrShape || 'square',
+      frameEnabled: Boolean(template.frameEnabled),
+      framePosition: template.framePosition || 'bottom',
+      frameStyle: template.frameStyle || 'rounded',
+      frameColor: template.frameColor || '#0f172a',
+      frameText: template.frameText || 'Scan Me',
+      frameTextColor: template.frameTextColor || '#ffffff',
+      frameFont: template.frameFont || 'Arial',
+      framePadding: template.framePadding || 36,
+      ...(template.templateValue ? {
+        type: template.templateType || 'url',
+        value: template.templateValue
+      } : {})
     }));
   };
 
@@ -114,34 +143,34 @@ function App() {
         <Header />
         
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Left Side: Controls & Templates */}
-            <div className="lg:col-span-7 space-y-8">
-              <section>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="icon-wand-sparkles text-teal-600 text-xl"></div>
-                  <h2 className="text-xl font-bold text-slate-800">Template Desain Cepat</h2>
+          {showTemplates ? (
+            <section id="templates" className="scroll-mt-8">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="icon-wand-sparkles text-teal-600 text-xl"></div>
+                <h2 className="text-xl font-bold text-slate-800">Template Desain</h2>
+              </div>
+              <TemplateList onSelect={applyTemplate} currentOptions={qrOptions} />
+            </section>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-7">
+                <QRControls options={qrOptions} setOptions={setQrOptions} />
+              </div>
+
+              <div className="lg:col-span-5">
+                <div className="sticky top-8">
+                  <QRDisplay
+                    qrUrl={qrUrl}
+                    options={qrOptions}
+                    onDownload={handleDownload}
+                    onShare={handleShare}
+                    onPrint={handlePrint}
+                    error={qrError}
+                  />
                 </div>
-                <TemplateList onSelect={applyTemplate} currentOptions={qrOptions} />
-              </section>
-
-              <QRControls options={qrOptions} setOptions={setQrOptions} />
-            </div>
-
-            {/* Right Side: Preview */}
-            <div className="lg:col-span-5">
-              <div className="sticky top-8">
-                <QRDisplay 
-                  qrUrl={qrUrl} 
-                  options={qrOptions} 
-                  onDownload={handleDownload}
-                  onShare={handleShare}
-                  onPrint={handlePrint}
-                  error={qrError}
-                />
               </div>
             </div>
-          </div>
+          )}
         </main>
 
         <footer className="mt-20 border-t border-slate-200 py-10 text-center text-[var(--text-muted)]">
